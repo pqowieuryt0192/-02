@@ -14,15 +14,16 @@ namespace 自由課題_御神籤
         
         public partial class Form1 : Form
         {
+        private Label titleLabel; //タイトルラベルを追加
             private Button[] buttons;
             private string[] fortunes = {
-            "大吉", // Great blessing
-            "中吉", // Middle blessing
-            "小吉", // Small blessing
-            "吉",   // Blessing
-            "末吉", // Future blessing
-            "凶",    // Curse
-           "大凶"   //Great curse
+            "大吉", 
+            "中吉", 
+            "小吉", 
+            "吉",   
+            "末吉", 
+            "凶",   
+           "大凶"   
         };
             private string[] shuffledFortunes;//クラスレベルで宣言
 
@@ -31,20 +32,28 @@ namespace 自由課題_御神籤
                 InitializeComponent();
 
                 this.Text = "御神籤";
-                this.Size = new System.Drawing.Size(400, 300);
+                this.Size = new System.Drawing.Size(400, 450);
 
-                buttons = new Button[fortunes.Length];
+            // タイトルラベルを設定 
+            titleLabel = new Label();
+            titleLabel.Text = "御神籤";
+            titleLabel.Font = new Font("Arial", 20, FontStyle.Bold);　
+            titleLabel.AutoSize = true;
+            titleLabel.Location = new Point((this.ClientSize.Width - titleLabel.Width) / 1, 2); // フォーム上の位置を調整 
+            this.Controls.Add(titleLabel);
+
+            buttons = new Button[fortunes.Length];
                 Random random = new Random();
                 shuffledFortunes = ShuffleArray(fortunes, random);//コンストラクタ内で初期化
 
-                int rows = 2; // 行数
-                int cols = 4; // 列数
+                int rows = 1; // 行数
+                int cols = 7; // 列数
                 int buttonWidth = 100;
-                int buttonHeight = 50;
-                int padding = 10;
+                int buttonHeight = 200;
+                int padding = 60;
+            int buttonStartY = titleLabel.Bottom + padding * 100; // ボタンの開始位置を調整
 
-
-                for (int i = 0; i < fortunes.Length; i++)
+            for (int i = 0; i < fortunes.Length; i++)
                 {
                     buttons[i] = new Button();
                     buttons[i].Text = "御神籤";
@@ -64,7 +73,9 @@ namespace 自由課題_御神籤
                 if (index >= 0 && index < shuffledFortunes.Length)
                 {
                     MessageBox.Show("あなたの御神籤の結果は: " + shuffledFortunes[index]);
-                }
+                foreach (var button in buttons) { button.Enabled = false; }
+                Application.Exit(); // アプリケーションを終了 
+            }
             }
 
             private string[] ShuffleArray(string[] array, Random random)
@@ -79,6 +90,7 @@ namespace 自由課題_御神籤
                 }
                 return shuffledArray;
             }
+
         }
     }
     
